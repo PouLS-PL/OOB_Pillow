@@ -1,4 +1,4 @@
-# Scenariusze testów akceptacyjnych -- Projekt testowania OOB modułu Pillow
+# Scenariusze testów akceptacyjnych -- moduł Pillow OOB
 
 ## Scenariusz 1 -- Otwarcie obrazu
 
