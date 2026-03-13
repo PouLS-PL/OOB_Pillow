@@ -19,6 +19,6 @@ Mierzą czas wykonania oberacji.
 ## Podział ról
 | Członek zespołu | Zadania                                                               | 
 | --------------- | --------------------------------------------------------------------- | 
-| Leon            | Testy funkcjonalne, testy wydajnościowe, harmonogram i organizacja.   | 
-| Zofia           | Zarządzanie GitHubem, struktura katalogów, code review, pipeline.     | 
-| Tymoteusz       | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu. | 
+| @PouLS-PL       | Testy funkcjonalne, testy wydajnościowe, harmonogram i organizacja.   | 
+| @maupaaa        | Zarządzanie GitHubem, struktura katalogów, code review, pipeline.     | 
+| @Tymqqq         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu. | 
