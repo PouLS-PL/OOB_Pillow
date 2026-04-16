@@ -24,4 +24,4 @@ Mierzą czas wykonania oberacji.
 | @Tymqqq         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu. | 
 ## Komunikacja
 - Grupa na Facebook Messenger
-- Omówienie postępów i planów na resztę projektu co tydzień w piątki na zajęciach
+- Omówienie postępów i kolejnych etapów projektu co tydzień w piątki na zajęciach
