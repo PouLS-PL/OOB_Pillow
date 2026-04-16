@@ -22,3 +22,6 @@ Mierzą czas wykonania oberacji.
 | @PouLS-PL       | Testy funkcjonalne, testy wydajnościowe, harmonogram i organizacja.   | 
 | @maupaaa        | Zarządzanie GitHubem, struktura katalogów, code review, pipeline.     | 
 | @Tymqqq         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu. | 
+## Komunikacja
+- Grupa na Facebook Messenger
+- Omówienie postępów i planów na resztę projektu co tydzień w piątki na zajęciach
