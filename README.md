@@ -22,6 +22,22 @@ Mierzą czas wykonania oberacji.
 | @PouLS-PL       | Testy funkcjonalne, testy wydajnościowe, harmonogram i organizacja.   | 
 | @maupaaa        | Zarządzanie GitHubem, struktura katalogów, code review, pipeline.     | 
 | @Tymqqq         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu. | 
+
+---
+
+## Komunikacja
+- Grupa na Facebook Messenger
+- Omówienie postępów i kolejnych etapów projektu co tydzień w piątki na zajęciach
+## Harmonogram projektu
+Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, wszystkie zmiany podlegające ocenie muszą być zmergowane do gałęzi main najpóźniej 2 dni przed lekcją oceniającą.
+
+| Etap projektu | Termin | Cut-off (Merge do main) | Zakres prac i Kryteria Ukończenia | Odpowiedzialni |
+| :--- | :--- | :--- | :--- | :--- |
+| **START: Organizacja** | 17.04.2026 | 15.04.2026 | Założenie repozytorium, pełne README, harmonogram, podział ról, kanały komunikacji i wstępne scenariusze testowe. | @PouLS-PL, @Tymqqq, @maupaaa |
+| **Pierwsza Iteracja: Zarządzanie** | 24.04.2026 | 22.04.2026 | Przygotowanie struktury katalogów, aktywne korzystanie z Issues i Pull Requestów, przeprowadzenie Code Review, opracowanie dokumentu ze scenariuszami akceptacyjnymi. | @maupaaa, @Tymqqq |
+| **Druga Iteracja: Testowanie** | 08.05.2026 | 06.05.2026 | Działająca pipeline GitHub Actions, implementacja testów funkcjonalnych i wydajnościowych oraz raportowanie wyników. | @PouLS-PL, @maupaaa |
+| **RELEASE: Finalizacja** | 22.05.2026 | 20.05.2026 | Kompletna dokumentacja końcowa, prezentacja projektu, samoocena oraz uzasadniony podział punktów w zespole. | @PouLS-PL, @Tymqqq, @maupaaa |
+
 # Wstępne Scenariusze Testowe Projektu
 
 ### Lista Scenariuszy Testowych
@@ -41,18 +57,3 @@ Mierzą czas wykonania oberacji.
 * **Środowisko:** Testy powinny być przeprowadzane przy użyciu biblioteki Pillow (PIL).
 * **Zestaw danych:** Wszystkie obrazy testowe powinny znajdować się w folderze `/tests/assets/`.
 * **Kryteria akceptacji:** Wszystkie testy muszą zakończyć się statusem PASS przed przejściem do fazy wdrożenia.
-
----
-
-## Komunikacja
-- Grupa na Facebook Messenger
-- Omówienie postępów i kolejnych etapów projektu co tydzień w piątki na zajęciach
-## Harmonogram projektu
-Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, wszystkie zmiany podlegające ocenie muszą być zmergowane do gałęzi main najpóźniej 2 dni przed lekcją oceniającą.
-
-| Etap projektu | Termin | Cut-off (Merge do main) | Zakres prac i Kryteria Ukończenia | Odpowiedzialni |
-| :--- | :--- | :--- | :--- | :--- |
-| **START: Organizacja** | 17.04.2026 | 15.04.2026 | Założenie repozytorium, pełne README, harmonogram, podział ról, kanały komunikacji i wstępne scenariusze testowe. | @PouLS-PL, @Tymqqq, @maupaaa |
-| **Pierwsza Iteracja: Zarządzanie** | 24.04.2026 | 22.04.2026 | Przygotowanie struktury katalogów, aktywne korzystanie z Issues i Pull Requestów, przeprowadzenie Code Review, opracowanie dokumentu ze scenariuszami akceptacyjnymi. | @maupaaa, @Tymqqq |
-| **Druga Iteracja: Testowanie** | 08.05.2026 | 06.05.2026 | Działająca pipeline GitHub Actions, implementacja testów funkcjonalnych i wydajnościowych oraz raportowanie wyników. | @PouLS-PL, @maupaaa |
-| **RELEASE: Finalizacja** | 22.05.2026 | 20.05.2026 | Kompletna dokumentacja końcowa, prezentacja projektu, samoocena oraz uzasadniony podział punktów w zespole. | @PouLS-PL, @Tymqqq, @maupaaa |
