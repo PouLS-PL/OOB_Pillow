@@ -28,6 +28,10 @@ Mierzą czas wykonania oberacji.
 ## Komunikacja
 - Grupa na Facebook Messenger
 - Omówienie postępów i kolejnych etapów projektu co tydzień w piątki na zajęciach
+## Zasady code review
+- Wszystkie zmiany do brancha `main` muszą być dodane przez Pull Requesty.
+- Aby Pull Request został zatwierdzony, musi uzyskać pozytywną opinię przynajmniej jednego członka zespołu i wszystkie uwagi powinny być rozwiązane.
+- Code review może zrobić każdy członek zespołu, który nie jest autorem Pull Requesta.
 ## Harmonogram projektu
 Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, wszystkie zmiany podlegające ocenie muszą być zmergowane do gałęzi main najpóźniej 2 dni przed lekcją oceniającą.
 
