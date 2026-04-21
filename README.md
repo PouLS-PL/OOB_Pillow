@@ -1,33 +1,51 @@
+
 # OOB_Pillow
+![Python Version](https://img.shields.io/badge/python-3.x-blue)
+![Pillow Version](https://img.shields.io/badge/Pillow-12.1.1-green)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+
 ## Opis projektu
 Celem projektu jest stworzenie uproszczonego systemu testowania OOB dla modlułu python Pillow z PyPI.
 ## Testowany moduł
-- Modułu: Pillow
-- Źródło: PyPI
-- Testowana wersja: 12.1.1
-## Strategia testowania
-### Testy biblioteki
-Gotowe testy biblioteki są uruchamiane w pipeline. Ich celem jest sprawdzenie, czy biblioteka działa poprawnie w środowisku przygotowanym przez pipeline.
-### Testy funkcjonalne
-Testy, które sprawdzają realne i kluczowe funkcjonalności biblioteki.
-Mogą obejmować:
-- sprawdzenie działania podstwawowych funkcji biblioteki
-- weryfikację poprawności wyników dla przykładowych danych
-- testowanie typowych scenariuszy użycia
-### Testy wydajnościowe
-Mierzą czas wykonania oberacji.
+* **Moduł:** [Pillow](https://pypi.org/project/Pillow/) (PIL Fork) – biblioteka do przetwarzania obrazów.
+* **Źródło:** PyPI.
+* **Wersja:** 12.1.1.
+
+## Struktura projektu
+
+* `docs/` – Dokumentacja projektowa oraz scenariusze testów akceptacyjnych.
+* `tests/functional/` – Testy funkcjonalne sprawdzające realne użycie modułu.
+* `tests/performance/` – Testy wydajnościowe mierzące czas operacji.
+* `tests/assets/` – Zbiór obrazów testowych wykorzystywanych w procesie walidacji.
+* `requirements.txt` – Lista zależności niezbędnych do automatycznej instalacji modułu przez pipeline.
+
 ## Podział ról
 | Członek zespołu | Zadania                                                               | 
 | --------------- | --------------------------------------------------------------------- | 
-| @PouLS-PL       | Testy funkcjonalne, testy wydajnościowe, harmonogram i organizacja.   | 
-| @maupaaa        | Zarządzanie GitHubem, struktura katalogów, code review, pipeline.     | 
-| @Tymqqq         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu. | 
+|**@PouLS-PL**     | Testy funkcjonalne, testy wydajnościowe, harmonogram i organizacja.   | 
+| **@maupaaa**        | Zarządzanie GitHubem, struktura katalogów, code review, pipeline.     | 
+| **@Tymqqq**         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu. | 
 
----
 
 ## Komunikacja
-- Grupa na Facebook Messenger
-- Omówienie postępów i kolejnych etapów projektu co tydzień w piątki na zajęciach
+ - **Kanały komunikacji**: Grupa na Facebook Messenger.
+ - **Zasady GitHub**:
+         
+	
+	 - Każda większa zmiana realizowana na osobnym branchu.
+	 - Merge do main wyłącznie przez Pull Request z obowiązkowym Code
+	   Review.
+ - **Spotkania**: Cotygodniowe podsumowanie postępów w piątki na zajęciach.
+## Strategia testowania
+Projekt realizuje trzy poziomy weryfikacji:
+ - **Testy biblioteki:** Uruchamianie testów jednostkowych dostarczanych przez autorów Pillow (jeśli są dostępne).
+ - **Testy funkcjonalne:** 6 scenariuszy sprawdzających kluczowe funkcje (np. konwersja, skalowanie).
+ - **Testy wydajnościowe:** Pomiary czasu przetwarzania operacji graficznych i zapis wyników do logów.
+
+
+> Szczegółowy dokument zawierający scenariusze testów akceptacyjnych wraz z kryteriami zaliczenia znajduje się w pliku: **[scenarios.md](docs/scenarios.md)**.
+
+
 ## Harmonogram projektu
 Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, wszystkie zmiany podlegające ocenie muszą być zmergowane do gałęzi main najpóźniej 2 dni przed lekcją oceniającą.
 
@@ -38,22 +56,16 @@ Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, ws
 | **Druga Iteracja: Testowanie** | 08.05.2026 | 06.05.2026 | Działająca pipeline GitHub Actions, implementacja testów funkcjonalnych i wydajnościowych oraz raportowanie wyników. | @PouLS-PL, @maupaaa |
 | **RELEASE: Finalizacja** | 22.05.2026 | 20.05.2026 | Kompletna dokumentacja końcowa, prezentacja projektu, samoocena oraz uzasadniony podział punktów w zespole. | @PouLS-PL, @Tymqqq, @maupaaa |
 
-# Wstępne Scenariusze Testowe Projektu
+Pełna lista scenariuszy akceptacyjnych znajduje się w pliku [scenarios.md](docs/scenarios.md).
 
-### Lista Scenariuszy Testowych
+## Instalacja i przygotowanie
+Zgodnie z zasadą "działającego minimum", projekt można przygotować do pracy w następujący sposób:
 
-| ID | Nazwa testu | Opis | Warunki wstępne | Czynności testowe | Spodziewane rezultaty | Status |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **PT-01** | **Walidacja konwersji JPEG->PNG** | Weryfikacja poprawności konwersji z formatu JPEG do formatu PNG. Sprawdzenie zachowania wymiarów. | Obraz testowy w formacie `.jpeg` | 1. Załaduj plik wejściowy <br> 2. Wywołaj funkcję `convert_format` <br> 3. Zweryfikuj typ MIME pliku <br> 4. Porównaj wymiary | Plik wyjściowy ma format PNG i zachowuje wymiary oryginału. | ⏳ TO-DO |
-| **PT-02** | **Skalowanie obrazu (resize)** | Weryfikacja przeliczania pikseli podczas zmiany rozmiaru pliku. | Obraz testowy 1000x1000px | 1. Załaduj plik wejściowy <br> 2. Wykonaj `resize((500,500))` <br> 3. Sprawdź wartość `.size` | Wartość `.size` zwraca dokładnie (500, 500). Obraz nie jest uszkodzony. | ⏳ TO-DO |
-| **PT-03** | **Konwersja barw (RGB->L)** | Weryfikacja zmiany trybu koloru na czarno-biały (Grayscale). | Obraz kolorowy w formacie RGB | 1. Załaduj plik wejściowy <br> 2. Użyj metody `.convert('L')` <br> 3. Sprawdź atrybut `.mode` | Obraz jest czarno-biały - atrybut `.mode` ma wartość 'L'. | ⏳ TO-DO |
-| **PT-04** | **Generowanie miniatury** | Test metody `thumbnail()`, która modyfikuje obiekt w miejscu. | Obraz prostokątny (np. 1200x800 px) | 1. Załaduj plik <br> 2. Wywołaj `img.thumbnail((400, 400))` <br> 3. Sprawdź wymiary | Dłuższy bok ma 400 px, krótszy bok przeskalowany proporcjonalnie. | ⏳ TO-DO |
-| **PT-05** | **Nakładanie filtrów** | Weryfikacja poprawności modyfikacji macierzy przy użyciu filtrów. | Obraz testowy `input.jpg` | 1. Załaduj plik wejściowy <br> 2. Wywołaj `filter(GaussianBlur)` | Plik ma inną sumę kontrolną niż oryginał. Widoczne rozmycie. | ⏳ TO-DO |
-| **PT-06** | **Kadrowanie (Crop)** | Weryfikacja wycinania fragmentu obrazu na podstawie współrzędnych. | Obraz o znanych wymiarach | 1. Wywołaj `crop((x0, y0, x1, y1))` <br> 2. Sprawdź wymiary wycinka | Wymiary wycinka zgadzają się z zadanymi współrzędnymi. | ⏳ TO-DO |
+1. Sklonuj repozytorium:
 
----
+       git clone [https://github.com/TWOJA-NAZWA-UZYTKOWNIKA/OOB_Pillow.git](https://github.com/TWOJA-NAZWA-UZYTKOWNIKA/OOB_Pillow.git)
 
-### Uwagi Techniczne
-* **Środowisko:** Testy powinny być przeprowadzane przy użyciu biblioteki Pillow (PIL).
-* **Zestaw danych:** Wszystkie obrazy testowe powinny znajdować się w folderze `/tests/assets/`.
-* **Kryteria akceptacji:** Wszystkie testy muszą zakończyć się statusem PASS przed przejściem do fazy wdrożenia.
+2. Zainstaluj wymagane biblioteki (Pillow 12.1.1):
+    
+    pip install -r requirements.txt
+
