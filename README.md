@@ -29,13 +29,12 @@ Celem projektu jest stworzenie uproszczonego systemu testowania OOB dla modlułu
 
 ## Komunikacja
  - **Kanały komunikacji**: Grupa na Facebook Messenger.
- - **Zasady GitHub**:
-         
-	
-	 - Każda większa zmiana realizowana na osobnym branchu.
-	 - Merge do main wyłącznie przez Pull Request z obowiązkowym Code
-	   Review.
  - **Spotkania**: Cotygodniowe podsumowanie postępów w piątki na zajęciach.
+## Zasady code review
+- Wszystkie zmiany do brancha `main` muszą być dodane przez Pull Requesty.
+- Aby Pull Request został zatwierdzony, musi uzyskać pozytywną opinię przynajmniej jednego członka zespołu i wszystkie uwagi powinny być rozwiązane.
+- Code review może zrobić każdy członek zespołu, który nie jest autorem Pull Requesta.
+- Po stworzeniu Pull Requesta autor informuje na grupie Facebook Messenger, że wymagany jest code review.
 ## Strategia testowania
 Projekt realizuje trzy poziomy weryfikacji:
  - **Testy biblioteki:** Uruchamianie testów jednostkowych dostarczanych przez autorów Pillow (jeśli są dostępne).
@@ -44,8 +43,6 @@ Projekt realizuje trzy poziomy weryfikacji:
 
 
 > Szczegółowy dokument zawierający scenariusze testów akceptacyjnych wraz z kryteriami zaliczenia znajduje się w pliku: **[scenarios.md](docs/scenarios.md)**.
-
-
 ## Harmonogram projektu
 Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, wszystkie zmiany podlegające ocenie muszą być zmergowane do gałęzi main najpóźniej 2 dni przed lekcją oceniającą.
 
