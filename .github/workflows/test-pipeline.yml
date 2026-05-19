@@ -72,11 +72,18 @@ jobs:
         run: |
           pytest tests/performance/ -v --benchmark-only --benchmark-json=benchmark.json || [ $? -eq 5 ]
 
+
+      #added timestamp + crash prevent 
+      - name: Create filename timestamp
+        if: success() && hashFiles('benchmark.json') != ''
+        id: format_date
+        run: echo "date_string=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_OUTPUT
+
       - name: Store benchmark results
         if: success() && hashFiles('benchmark.json') != ''
         uses: actions/upload-artifact@v4
         with:
-          name: benchmark-results-${{ github.event.repository.updated_at }}
+          name: benchmark-results-${{ steps.format_date.outputs.date_string }}
           path: benchmark.json
           retention-days: 30
 
