@@ -76,7 +76,7 @@ jobs:
         if: success() && hashFiles('benchmark.json') != ''
         uses: actions/upload-artifact@v4
         with:
-          name: benchmark-results
+          name: benchmark-results-${{ github.event.repository.updated_at }}
           path: benchmark.json
           retention-days: 30
 
