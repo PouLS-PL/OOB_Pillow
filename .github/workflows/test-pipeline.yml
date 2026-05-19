@@ -12,9 +12,6 @@ on:
           - all
           - functional
           - performance
-#enforce Node.js 24 to avoid deprecation warnings
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
 
 jobs:
   functional-tests:
@@ -36,13 +33,15 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest pytest-cov
-#tests
+
+      #tests 
       - name: Run functional tests
         run: |
           pytest tests/functional/ -v --cov=. --cov-report=xml
 
+      # Upgraded to v5 to support newer Node.js runners
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         if: always()
         with:
           files: ./coverage.xml
@@ -67,11 +66,10 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest pytest-benchmark
-# crash prevent if performance folder empty 
+
+      #crash prevent if performance folder empty 
       - name: Run performance tests
         run: |
-          # Jeśli folder performance jest pusty lub nie ma testów, pytest zwróci exit code 5.
-          # Ta linijka zapobiega wywaleniu pipeline'u.
           pytest tests/performance/ -v --benchmark-only --benchmark-json=benchmark.json || [ $? -eq 5 ]
 
       - name: Store benchmark results
