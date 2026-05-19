@@ -110,16 +110,25 @@ jobs:
     needs: [functional-tests, performance-tests]
     if: always() && (needs.functional-tests.result != 'skipped' || needs.performance-tests.result != 'skipped')
     steps:
-      - name: Check test results
+      - name: Generate Markdown Summary
         run: |
-          FUNC_RESULT="${{ needs.functional-tests.result }}"
-          PERF_RESULT="${{ needs.performance-tests.result }}"
+          FUNC_RES="${{ needs.functional-tests.result }}"
+          PERF_RES="${{ needs.performance-tests.result }}"
           
-          if [[ "$FUNC_RESULT" == "failure" || "$PERF_RESULT" == "failure" ]]; then
-            echo "Not all tests passed"
+          echo "## Test summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Type of test | Result |" >> $GITHUB_STEP_SUMMARY
+          echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+          
+          if [[ "$FUNC_RES" == "success" ]]; then echo "| Functional | PASSED |" >> $GITHUB_STEP_SUMMARY; fi
+          if [[ "$FUNC_RES" == "failure" ]]; then echo "| Functional |  FAILED |" >> $GITHUB_STEP_SUMMARY; fi
+          if [[ "$FUNC_RES" == "skipped" ]]; then echo "| Functional |  SKIPPED |" >> $GITHUB_STEP_SUMMARY; fi
+          
+          if [[ "$PERF_RES" == "success" ]]; then echo "| Performance |  PASSED |" >> $GITHUB_STEP_SUMMARY; fi
+          if [[ "$PERF_RES" == "failure" ]]; then echo "| Performance |  FAILED |" >> $GITHUB_STEP_SUMMARY; fi
+          if [[ "$PERF_RES" == "skipped" ]]; then echo "| Performance |  SKIPPED |" >> $GITHUB_STEP_SUMMARY; fi
+
+
+          if [[ "$FUNC_RES" == "failure" || "$PERF_RES" == "failure" ]]; then
             exit 1
-          elif [[ "$FUNC_RESULT" == "skipped" && "$PERF_RESULT" == "skipped" ]]; then
-            echo "Tests were skipped"
-          else
-            echo "All tests passed"
           fi
