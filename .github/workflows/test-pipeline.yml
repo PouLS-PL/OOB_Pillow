@@ -1,7 +1,11 @@
 name: Test Pipeline
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ main ]       
+  pull_request:
+    branches: [ main ]     
+  workflow_dispatch:        
     inputs:
       test_level:
         description: 'Test level to run'
@@ -17,7 +21,10 @@ jobs:
   functional-tests:
     name: Functional Tests
     runs-on: ubuntu-latest
-    if: github.event.inputs.test_level == 'all' || github.event.inputs.test_level == 'functional'
+    if: |
+      github.event_name == 'push' || 
+      github.event_name == 'pull_request' || 
+      (github.event_name == 'workflow_dispatch' && (github.event.inputs.test_level == 'all' || github.event.inputs.test_level == 'functional'))
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
@@ -58,7 +65,10 @@ jobs:
   performance-tests:
     name: Performance Tests
     runs-on: ubuntu-latest
-    if: github.event.inputs.test_level == 'all' || github.event.inputs.test_level == 'performance'
+    if: |
+      github.event_name == 'push' || 
+      github.event_name == 'pull_request' || 
+      (github.event_name == 'workflow_dispatch' && (github.event.inputs.test_level == 'all' || github.event.inputs.test_level == 'performance'))
     steps:
       - name: Checkout code
         uses: actions/checkout@v4.2.2
@@ -79,7 +89,6 @@ jobs:
       - name: Run performance tests
         run: |
           pytest tests/performance/ -v --benchmark-only --benchmark-json=benchmark.json || [ $? -eq 5 ]
-
 
       #added timestamp + crash prevent 
       - name: Create filename timestamp
