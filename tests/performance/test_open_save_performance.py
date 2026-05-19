@@ -1,5 +1,3 @@
-import time
-
 from PIL import Image
 
 from tests.helpers import create_test_image
