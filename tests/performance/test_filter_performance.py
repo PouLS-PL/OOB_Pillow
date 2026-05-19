@@ -1,5 +1,3 @@
-import time
-
 from PIL import Image, ImageFilter
 
 from tests.helpers import create_pattern_image
