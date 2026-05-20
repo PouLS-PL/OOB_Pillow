@@ -56,7 +56,7 @@ Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, ws
 Pełna lista scenariuszy akceptacyjnych znajduje się w pliku [scenarios.md](docs/scenarios.md).
 
 ## Instalacja i przygotowanie
-Zgodnie z zasadą "działającego minimum", projekt można przygotować do pracy w następujący sposób:
+Zgodnie z zasadą „działającego minimum”, projekt można przygotować do pracy w następujący sposób:
 
 1. Sklonuj repozytorium:
 
