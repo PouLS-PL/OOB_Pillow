@@ -164,17 +164,25 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Functional test details" >> $GITHUB_STEP_SUMMARY
           if [ -f reports/functional/result.xml ]; then
-            python -c "import xml.etree.ElementTree as ET; root=ET.parse('reports/functional/result.xml').getroot(); [print(f'{(tc.attrib.get(\"name\") or tc.attrib.get(\"classname\"))}: {\"FAILED\" if tc.find(\"failure\") is not None else \"ERROR\" if tc.find(\"error\") is not None else \"PASSED\"} ({float(tc.attrib.get(\"time\", \"0\")):.3f}s)') for tc in root.findall('.//testcase')]" | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
+            echo "| Test | Status | Time |" >> $GITHUB_STEP_SUMMARY
+            echo "| --- | --- | --- |" >> $GITHUB_STEP_SUMMARY
+            python -c "import xml.etree.ElementTree as ET; root=ET.parse('reports/functional/result.xml').getroot(); [print(f'| {(tc.attrib.get(\"name\") or tc.attrib.get(\"classname\") or \"Unnamed test\")} | {\"FAILED\" if tc.find(\"failure\") is not None else \"ERROR\" if tc.find(\"error\") is not None else \"PASSED\"} | {float(tc.attrib.get(\"time\", \"0\")):.3f}s |') for tc in root.findall('.//testcase')]" >> $GITHUB_STEP_SUMMARY
           else
-            echo "- Functional report not available" >> $GITHUB_STEP_SUMMARY
+            echo "| Test | Status | Time |" >> $GITHUB_STEP_SUMMARY
+            echo "| --- | --- | --- |" >> $GITHUB_STEP_SUMMARY
+            echo "| Functional report not available | N/A | N/A |" >> $GITHUB_STEP_SUMMARY
           fi
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Performance test durations" >> $GITHUB_STEP_SUMMARY
           if [ -f reports/perf/benchmark.json ]; then
-            python -c "import json; j=json.load(open('reports/perf/benchmark.json')); bs=j.get('benchmarks') if isinstance(j, dict) else j; bs = bs if bs is not None else (j if isinstance(j, list) else []); [print(f'{(b.get(\"name\") or b.get(\"fullname\") or b.get(\"group\") or \"\")}: {((b.get(\"stats\", {}).get(\"mean\") or b.get(\"stats\", {}).get(\"median\") or b.get(\"stats\", {}).get(\"min\") or 0) * 1000):.3f} ms') for b in bs]" | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
+            echo "| Benchmark | Mean time |" >> $GITHUB_STEP_SUMMARY
+            echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+            python -c "import json; j=json.load(open('reports/perf/benchmark.json')); bs=j.get('benchmarks') if isinstance(j, dict) else j; bs = bs if bs is not None else (j if isinstance(j, list) else []); [print(f'| {(b.get(\"name\") or b.get(\"fullname\") or b.get(\"group\") or \"Unnamed benchmark\")} | {((b.get(\"stats\", {}).get(\"mean\") or b.get(\"stats\", {}).get(\"median\") or b.get(\"stats\", {}).get(\"min\") or 0) * 1000):.3f} ms |') for b in bs]" >> $GITHUB_STEP_SUMMARY
           else
-            echo "- Benchmark report not available" >> $GITHUB_STEP_SUMMARY
+            echo "| Benchmark | Mean time |" >> $GITHUB_STEP_SUMMARY
+            echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+            echo "| Benchmark report not available | N/A |" >> $GITHUB_STEP_SUMMARY
           fi
 
           if [[ "$FUNC_RES" == "failure" || "$PERF_RES" == "failure" || "$FUNC_RES" == "cancelled" || "$PERF_RES" == "cancelled" ]]; then
