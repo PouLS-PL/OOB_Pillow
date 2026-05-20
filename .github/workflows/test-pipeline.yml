@@ -113,12 +113,34 @@ jobs:
           path: reports/benchmark.json
           retention-days: 30
           if-no-files-found: ignore
+      - name: Upload benchmark JSON (fixed name)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: benchmark-json
+          path: reports/benchmark.json
+          retention-days: 30
+          if-no-files-found: ignore
   test-summary:
     name: Test Summary
     runs-on: ubuntu-latest
     needs: [functional-tests, performance-tests]
     if: always() && (needs.functional-tests.result != 'skipped' || needs.performance-tests.result != 'skipped')
     steps:
+      - name: Download functional reports
+        uses: actions/download-artifact@v4
+        if: always()
+        with:
+          name: functional-test-reports
+          path: reports/functional
+
+      - name: Download benchmark JSON
+        uses: actions/download-artifact@v4
+        if: always()
+        with:
+          name: benchmark-json
+          path: reports/perf
+
       - name: Generate Markdown Summary
         env:
           FUNC_RES: ${{ needs.functional-tests.result }}
@@ -128,16 +150,40 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Type of test | Result |" >> $GITHUB_STEP_SUMMARY
           echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
-          
+
           if [[ "$FUNC_RES" == "success" ]]; then echo "| Functional | PASSED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$FUNC_RES" == "failure" ]]; then echo "| Functional |  FAILED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$FUNC_RES" == "skipped" ]]; then echo "| Functional |  SKIPPED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$FUNC_RES" == "cancelled" ]]; then echo "| Functional |  CANCELLED |" >> $GITHUB_STEP_SUMMARY; fi
-          
+
           if [[ "$PERF_RES" == "success" ]]; then echo "| Performance |  PASSED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$PERF_RES" == "failure" ]]; then echo "| Performance |  FAILED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$PERF_RES" == "skipped" ]]; then echo "| Performance |  SKIPPED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$PERF_RES" == "cancelled" ]]; then echo "| Performance |  CANCELLED |" >> $GITHUB_STEP_SUMMARY; fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Functional test details" >> $GITHUB_STEP_SUMMARY
+          if [ -f reports/functional/result.xml ]; then
+            echo "| Test | Status | Time |" >> $GITHUB_STEP_SUMMARY
+            echo "| --- | --- | --- |" >> $GITHUB_STEP_SUMMARY
+            python -c "import xml.etree.ElementTree as ET; root=ET.parse('reports/functional/result.xml').getroot(); [print(f'| {(tc.attrib.get(\"name\") or tc.attrib.get(\"classname\") or \"Unnamed test\")} | {\"FAILED\" if tc.find(\"failure\") is not None else \"ERROR\" if tc.find(\"error\") is not None else \"PASSED\"} | {float(tc.attrib.get(\"time\", \"0\")):.3f}s |') for tc in root.findall('.//testcase')]" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Test | Status | Time |" >> $GITHUB_STEP_SUMMARY
+            echo "| --- | --- | --- |" >> $GITHUB_STEP_SUMMARY
+            echo "| Functional report not available | N/A | N/A |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Performance test durations" >> $GITHUB_STEP_SUMMARY
+          if [ -f reports/perf/benchmark.json ]; then
+            echo "| Benchmark | Mean time |" >> $GITHUB_STEP_SUMMARY
+            echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+            python -c "import json; j=json.load(open('reports/perf/benchmark.json')); bs=j.get('benchmarks') if isinstance(j, dict) else j; bs = bs if bs is not None else (j if isinstance(j, list) else []); [print(f'| {(b.get(\"name\") or b.get(\"fullname\") or b.get(\"group\") or \"Unnamed benchmark\")} | {((b.get(\"stats\", {}).get(\"mean\") or b.get(\"stats\", {}).get(\"median\") or b.get(\"stats\", {}).get(\"min\") or 0) * 1000):.3f} ms |') for b in bs]" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Benchmark | Mean time |" >> $GITHUB_STEP_SUMMARY
+            echo "| --- | --- |" >> $GITHUB_STEP_SUMMARY
+            echo "| Benchmark report not available | N/A |" >> $GITHUB_STEP_SUMMARY
+          fi
 
           if [[ "$FUNC_RES" == "failure" || "$PERF_RES" == "failure" || "$FUNC_RES" == "cancelled" || "$PERF_RES" == "cancelled" ]]; then
             exit 1
