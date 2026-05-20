@@ -87,6 +87,13 @@ Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, ws
 
 Pełna lista scenariuszy akceptacyjnych znajduje się w pliku [scenarios.md](docs/scenarios.md).
 
+## Wnioski
+Projekt spełnił założenia dotyczące przygotowania środowiska testowego OOB dla biblioteki Pillow.
+Najważniejsze rezultaty:
+- wdrożenie powtarzalnych testów funkcjonalnych i wydajnościowych dla kluczowych operacji na obrazach,
+- uruchomienie pipeline CI w GitHub Actions, która automatycznie weryfikuje jakość zmian przed mergem,
+- uporządkowanie dokumentacji (README, scenariusze akceptacyjne, opis pipeline), co ułatwia dalszy rozwój projektu.
+
 ## Instalacja i przygotowanie
 Zgodnie z zasadą „działającego minimum”, projekt można przygotować do pracy w następujący sposób:
 
@@ -131,4 +138,3 @@ pytest -q
 ```bash
 pip install pytest pillow
 ```
-
