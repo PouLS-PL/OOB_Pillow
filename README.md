@@ -78,8 +78,8 @@ Zgodnie z zasadą "działającego minimum", projekt można przygotować do pracy
     - **Walidacja błędów:** testy sprawdzające zachowanie przy niepoprawnych lub uszkodzonych danych.
 - **Szczegółowe scenariusze (pliki):**
     - [tests/functional/test_convert_jpeg_to_png.py](tests/functional/test_convert_jpeg_to_png.py#L1): konwersja JPEG → PNG, zachowanie rozmiarów.
+    - [tests/functional/test_generate_thumbnail.py](tests/functional/test_generate_thumbnail.py#L1): generowanie miniatury i weryfikacja zachowania proporcji.
     - [tests/functional/test_convert_rgb_to_grayscale.py](tests/functional/test_convert_rgb_to_grayscale.py#L1): konwersja RGB → grayscale (`L`).
-    - [tests/functional/test_resize_image.py](tests/functional/test_resize_image.py#L1): zmiana rozmiaru i weryfikacja wymiarów wynikowych.
     - [tests/functional/test_crop_image.py](tests/functional/test_crop_image.py#L1): przycinanie obrazu i sprawdzenie zgodności pikseli.
     - [tests/functional/test_apply_gaussian_blur.py](tests/functional/test_apply_gaussian_blur.py#L1): zastosowanie filtra GaussianBlur i porównanie danych pikseli.
     - [tests/functional/test_filters_error_cases.py](tests/functional/test_filters_error_cases.py#L1-L200): przypadki błędne i nieprawidłowe parametry (nieistniejące/porwane pliki, nieprawidłowe formaty/tryby, operacje na zamkniętym obrazie itp.).
