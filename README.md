@@ -2,7 +2,7 @@
 # OOB_Pillow
 ![Python Version](https://img.shields.io/badge/python-3.x-blue)
 ![Pillow Version](https://img.shields.io/badge/Pillow-12.1.1-green)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+[![Test Pipeline](https://github.com/PouLS-PL/OOB_Pillow/actions/workflows/test-pipeline.yml/badge.svg?branch=ci%2Fadd-test-pipeline)](https://github.com/PouLS-PL/OOB_Pillow/actions/workflows/test-pipeline.yml)
 
 ## Opis projektu
 Celem projektu jest stworzenie uproszczonego systemu testowania OOB dla modlułu python Pillow z PyPI.
@@ -11,6 +11,35 @@ Celem projektu jest stworzenie uproszczonego systemu testowania OOB dla modlułu
 * **Źródło:** PyPI.
 * **Wersja:** 12.1.1.
 
+## Automatyzacja i CI (GitHub Actions)
+
+W projekcie wdrożony został system ciągłej integracji (Continuous Integration) oparty o GitHub Actions. Jego głównym celem jest dbanie o to, aby każda zmiana w kodzie była stabilna, bezpieczna i nie psuła dotychczasowego działania aplikacji. Dzięki temu osoba z zewnątrz (oraz nasz zespół) ma pewność, co do jakości kodu bez konieczności jego ręcznego sprawdzania.
+
+### Co uruchamia proces (Workflow Triggers)?
+Pipeline uruchamia się automatycznie w dwóch przypadkach:
+1. **Każdy Pull Request** skierowany do gałęzi `main` – sprawdzamy kod zanim zostanie scalony.
+2. **Każdy bezpośredni Push** do gałęzi `main` – weryfikujemy ostateczny stan głównej wersji projektu.
+
+### Jakie kontrole są wykonywane (Weryfikacja)?
+Podczas działania workflow, GitHub Actions uruchamia odizolowane środowisko testowe i wykonuje następujące kroki:
+* **Instalacja zależności:** Automatyczne pobranie Pythona oraz biblioteki Pillow w testowanej wersji (12.1.1) z pliku `requirements.txt`.
+* **Testy funkcjonalne:** Uruchomienie 6 scenariuszy sprawdzających, czy kluczowe operacje graficzne (np. skalowanie, konwersja formatów) działają poprawnie.
+* **Testy wydajnościowe:** Pomiar czasu przetwarzania operacji, aby upewnić się, że nowo dodany kod nie spowalnia działania biblioteki.
+
+---
+
+### Co oznaczają statusy workflow?
+
+#### 🟢 Sukces (Build Passing)
+Oznacza, że kod pomyślnie przeszedł wszystkie etapy weryfikacji. Wszystkie testy funkcjonalne zakończyły się wynikiem pozytywnym, wydajność mieści się w normie, a aplikacja jest stabilna i gotowa do bezpiecznego wdrożenia lub dalszego rozwoju.
+
+#### 🔴 Porażka (Build Failing)
+Oznacza wykrycie błędu. Najczęstsze przyczyny to:
+* Co najmniej jeden test funkcjonalny zakończył się niepowodzeniem (np. funkcja Pillow wygenerowała uszkodzony plik).
+* Błąd składniowy w kodzie lub problem z instalacją wymaganych bibliotek.
+* Drastyczny spadek wydajności operacji graficznych.
+
+*W przypadku porażki, kod nie powinien być scalany z główną gałęzią (`main`) do momentu naprawienia problemu przez zespół.*
 ## Struktura projektu
 
 * `docs/` – Dokumentacja projektowa oraz scenariusze testów akceptacyjnych.
