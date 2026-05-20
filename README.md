@@ -16,13 +16,16 @@ Celem projektu jest stworzenie uproszczonego systemu testowania OOB dla modlułu
 W projekcie wdrożony został system ciągłej integracji (Continuous Integration) oparty o GitHub Actions. Jego głównym celem jest dbanie o to, aby każda zmiana w kodzie była stabilna, bezpieczna i nie psuła dotychczasowego działania aplikacji. Dzięki temu osoba z zewnątrz (oraz nasz zespół) ma pewność, co do jakości kodu bez konieczności jego ręcznego sprawdzania.
 
 ### Co uruchamia proces (Workflow Triggers)?
-Pipeline uruchamia się automatycznie w dwóch przypadkach:
+Pipeline uruchamia się automatycznie w trzech przypadkach:
 1. **Każdy Pull Request** skierowany do gałęzi `main` – sprawdzamy kod zanim zostanie scalony.
 2. **Każdy bezpośredni Push** do gałęzi `main` – weryfikujemy ostateczny stan głównej wersji projektu.
+3. **Ręczne wywołanie (Workflow Dispatch)** – możliwość manualnego uruchomienia testów z poziomu zakładki *Actions* z wyborem poziomu testów (`all`, `functional`, `performance`).
 
 ### Jakie kontrole są wykonywane (Weryfikacja)?
 Podczas działania workflow, GitHub Actions uruchamia odizolowane środowisko testowe i wykonuje następujące kroki:
 * **Instalacja zależności:** Automatyczne pobranie Pythona oraz biblioteki Pillow w testowanej wersji (12.1.1) z pliku `requirements.txt`.
+*  **Konfiguracja środowiska i instalacja zależności:** Uruchomienie Pythona 3.11 oraz automatyczne pobranie biblioteki Pillow w testowanej wersji (12.1.1) z pliku `requirements.txt` wraz z narzędziami testowymi.
+*  **Analiza statyczna kodu (Linting):** Weryfikacja jakości i stylu kodu za pomocą narzędzia Ruff.
 * **Testy funkcjonalne:** Uruchomienie 6 scenariuszy sprawdzających, czy kluczowe operacje graficzne (np. skalowanie, konwersja formatów) działają poprawnie.
 * **Testy wydajnościowe:** Pomiar czasu przetwarzania operacji, aby upewnić się, że nowo dodany kod nie spowalnia działania biblioteki.
 
