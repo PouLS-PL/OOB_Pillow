@@ -98,20 +98,19 @@ jobs:
       - name: Run performance tests
         run: |
           mkdir -p reports/
-          pytest tests/performance/ -v --benchmark-only --benchmark-json=reports/benchmark.json || [ $? -eq 5 ]
-
-      - name: Create filename timestamp
-        if: success() && hashFiles('reports/benchmark.json') != ''
-        id: format_date
-        run: echo "date_string=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_OUTPUT
+          if [ -d "tests/performance" ]; then
+            pytest tests/performance/ -v --benchmark-only --benchmark-json=reports/benchmark.json
+          else
+            echo "No performance tests found."
+          fi
 
       - name: Store benchmark results
-        if: success() && hashFiles('reports/benchmark.json') != ''
         uses: actions/upload-artifact@v4
         with:
-          name: benchmark-results-${{ steps.format_date.outputs.date_string }}
+          name: benchmark-results
           path: reports/benchmark.json
           retention-days: 30
+          if-no-files-found: ignore
 
   test-summary:
     name: Test Summary
@@ -120,10 +119,10 @@ jobs:
     if: always() && (needs.functional-tests.result != 'skipped' || needs.performance-tests.result != 'skipped')
     steps:
       - name: Generate Markdown Summary
+        env:
+          FUNC_RES: ${{ needs.functional-tests.result }}
+          PERF_RES: ${{ needs.performance-tests.result }}
         run: |
-          FUNC_RES="${{ needs.functional-tests.result }}"
-          PERF_RES="${{ needs.performance-tests.result }}"
-          
           echo "## Test summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "| Type of test | Result |" >> $GITHUB_STEP_SUMMARY
@@ -132,11 +131,13 @@ jobs:
           if [[ "$FUNC_RES" == "success" ]]; then echo "| Functional | PASSED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$FUNC_RES" == "failure" ]]; then echo "| Functional |  FAILED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$FUNC_RES" == "skipped" ]]; then echo "| Functional |  SKIPPED |" >> $GITHUB_STEP_SUMMARY; fi
+          if [[ "$FUNC_RES" == "cancelled" ]]; then echo "| Functional |  CANCELLED |" >> $GITHUB_STEP_SUMMARY; fi
           
           if [[ "$PERF_RES" == "success" ]]; then echo "| Performance |  PASSED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$PERF_RES" == "failure" ]]; then echo "| Performance |  FAILED |" >> $GITHUB_STEP_SUMMARY; fi
           if [[ "$PERF_RES" == "skipped" ]]; then echo "| Performance |  SKIPPED |" >> $GITHUB_STEP_SUMMARY; fi
+          if [[ "$PERF_RES" == "cancelled" ]]; then echo "| Performance |  CANCELLED |" >> $GITHUB_STEP_SUMMARY; fi
 
-          if [[ "$FUNC_RES" == "failure" || "$PERF_RES" == "failure" ]]; then
+          if [[ "$FUNC_RES" == "failure" || "$PERF_RES" == "failure" || "$FUNC_RES" == "cancelled" || "$PERF_RES" == "cancelled" ]]; then
             exit 1
           fi
