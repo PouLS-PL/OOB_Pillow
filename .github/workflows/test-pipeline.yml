@@ -164,19 +164,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Functional test details" >> $GITHUB_STEP_SUMMARY
           if [ -f reports/functional/result.xml ]; then
-            python - <<'PY' | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
-            import xml.etree.ElementTree as ET
-            root=ET.parse('reports/functional/result.xml').getroot()
-            for tc in root.findall('.//testcase'):
-              name=tc.attrib.get('name') or tc.attrib.get('classname')
-              time=tc.attrib.get('time','0')
-              status='PASSED'
-              if tc.find('failure') is not None:
-                status='FAILED'
-              if tc.find('error') is not None:
-                status='ERROR'
-              print(f"{name}: {status} ({float(time):.3f}s)")
-            PY
+            python -c "import xml.etree.ElementTree as ET; root=ET.parse('reports/functional/result.xml').getroot(); [print(f'{(tc.attrib.get(\"name\") or tc.attrib.get(\"classname\"))}: {\"FAILED\" if tc.find(\"failure\") is not None else \"ERROR\" if tc.find(\"error\") is not None else \"PASSED\"} ({float(tc.attrib.get(\"time\", \"0\")):.3f}s)') for tc in root.findall('.//testcase')]" | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
           else
             echo "- Functional report not available" >> $GITHUB_STEP_SUMMARY
           fi
@@ -184,23 +172,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Performance test durations" >> $GITHUB_STEP_SUMMARY
           if [ -f reports/perf/benchmark.json ]; then
-            python - <<'PY' | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
-            import json
-            with open('reports/perf/benchmark.json') as f:
-              j=json.load(f)
-            bs=j.get('benchmarks') if isinstance(j, dict) else j
-            if bs is None:
-              bs=j if isinstance(j, list) else []
-            for b in bs:
-              name=b.get('name') or b.get('fullname') or b.get('group') or ''
-              stats=b.get('stats',{})
-              mean=stats.get('mean') or stats.get('median') or stats.get('min') or 0
-              try:
-                ms=mean*1000
-              except Exception:
-                ms=0
-              print(f"{name}: {ms:.3f} ms")
-            PY
+            python -c "import json; j=json.load(open('reports/perf/benchmark.json')); bs=j.get('benchmarks') if isinstance(j, dict) else j; bs = bs if bs is not None else (j if isinstance(j, list) else []); [print(f'{(b.get(\"name\") or b.get(\"fullname\") or b.get(\"group\") or \"\")}: {((b.get(\"stats\", {}).get(\"mean\") or b.get(\"stats\", {}).get(\"median\") or b.get(\"stats\", {}).get(\"min\") or 0) * 1000):.3f} ms') for b in bs]" | sed 's/^/- /' >> $GITHUB_STEP_SUMMARY
           else
             echo "- Benchmark report not available" >> $GITHUB_STEP_SUMMARY
           fi
