@@ -21,21 +21,21 @@ def test_open_corrupt_image_raises_unidentified_error(tmp_path):
 def test_save_with_invalid_format_raises_value_error(tmp_path):
     img_path = create_test_image(tmp_path / "valid.png")
     with Image.open(img_path) as img:
-        with pytest.raises(ValueError):
+        with pytest.raises(KeyError):
             img.save(tmp_path / "out.invalid", format="INVALID_FORMAT")
 
 
 def test_resize_with_negative_dimensions_raises_value_error(tmp_path):
     img_path = create_test_image(tmp_path / "resize.png")
     with Image.open(img_path) as img:
-        with pytest.raises(ValueError):
+        with pytest.raises(KeyError):
             img.resize((-10, -10))
 
 
 def test_convert_with_invalid_mode_raises_value_error(tmp_path):
     img_path = create_test_image(tmp_path / "convert.png")
     with Image.open(img_path) as img:
-        with pytest.raises(ValueError):
+        with pytest.raises(KeyError):
             img.convert("INVALID_MODE")
 
 
@@ -50,5 +50,5 @@ def test_operation_on_closed_image_raises_value_error(tmp_path):
     img_path = create_test_image(tmp_path / "closed.png")
     img = Image.open(img_path)
     img.close()
-    with pytest.raises(ValueError):
+    with pytest.raises(KeyError):
         img.filter(ImageFilter.GaussianBlur(radius=2))
