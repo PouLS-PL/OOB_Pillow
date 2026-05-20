@@ -53,10 +53,10 @@ Zadanie dedykowane testom wydajnościowym i profilowaniu kodu.
 * **Środowisko:** Python 3.11 wraz z cache `pip` (`actions/setup-python@v5.3.0`).
 * **Zabezpieczenie przed błędami pustego katalogu:** Wykorzystano mechanizm obsługi kodu wyjścia pytest. Jeśli katalog `tests/performance/` nie zawiera zdefiniowanych testów, komenda zwraca standardowy kod wyjścia `5`. Został on obsłużony wyrażeniem `|| [ $? -eq 5 ]`, co zapobiega awarii całego pipeline'u z powodu braku testów wydajnościowych.
 * **Przebieg procesu:**
-    1.  **Pobranie kodu i instalacja:** Analogicznie jak w kroku funkcjonalnym, z dodaniem biblioteki benchmarkowej `pytest-benchmark`.
+    1.  **Pobranie kodu i instalacja:** Pobranie kodu źródłowego oraz instalacja Pythona 3.11 z cache'owaniem, a następnie instalacja uproszczonych pakietów testowych: `pytest` i biblioteki benchmarkowej `pytest-benchmark`.
     2.  **Uruchomienie testów:** Wykonanie testów z flagą `--benchmark-only` oraz zapis wyników do pliku strukturyzowanego `reports/benchmark.json`.
-    3.  **Generowanie znacznika czasu:** Jeśli testy zakończą się sukcesem i plik z wynikami istnieje, generowany jest unikalny timestamp w formacie `YYYY-MM-DD_HH-MM-SS` przekazywany do wyjścia kroku (`$GITHUB_OUTPUT`).
-    4.  **Archiwizacja wyników:** Zapisanie pliku `reports/benchmark.json` jako artefaktu pod dynamiczną nazwą `benchmark-results-[timestamp]` z czasem retencji ustawionym na **30 dni**.
+    3.  **Generowanie znacznika czasu:** Krok ten wykonuje się zawsze (`if: always()`) po zakończeniu testów, generując unikalny timestamp w formacie `YYYY-MM-DD_HH-MM-SS` przekazywany do wyjścia kroku (`$GITHUB_OUTPUT`).
+    4.  **Archiwizacja wyników:** Zapisanie pliku `reports/benchmark.json` jako artefaktu pod dynamiczną nazwą `benchmark-results-[timestamp]` z czasem retencji ustawionym na **30 dni** (krok wykonuje się zawsze, a ewentualny brak pliku jest ignorowany).
 
 ### 2.3. Test Summary (`test-summary`)
 
@@ -65,7 +65,7 @@ Zadanie agregujące, działające po zakończeniu procesów testowych.
 * **Zależności:** `needs: [functional-tests, performance-tests]`
 * **Warunek uruchomienia:** Wykonuje się zawsze (`if: always()`), pod warunkiem, że przynajmniej jedno z poprzednich zadań nie zostało pominięte (`skipped`).
 * **Funkcjonalność:** Odczytuje statusy końcowe zadań bazowych i dynamicznie generuje czytelne podsumowanie w formacie tabeli Markdown, które jest wstrzykiwane do sekcji `GitHub Step Summary`.
-* **Kontrola statusu wyjścia:** Jeśli którykolwiek z etapów testowych zakończył się niepowodzeniem (`failure`), zadanie celowo zwraca kod wyjścia `1` (`exit 1`), co skutkuje oznaczeniem całego przebiegu workflow jako nieudanego w interfejsie GitHub.
+* **Kontrola statusu wyjścia:** Jeśli którykolwiek z etapów testowych zakończył się niepowodzeniem (`failure`) lub został anulowany (`cancelled`), zadanie celowo zwraca kod wyjścia `1` (`exit 1`), co skutkuje oznaczeniem całego przebiegu workflow jako nieudanego w interfejsie GitHub.
 
 ---
 
@@ -113,6 +113,7 @@ Zadanie `test-summary` generuje raport w oparciu o poniższą logikę stanów:
 | :--- | :--- | :--- |
 | `success` | PASSED | Neutralny / Sukces |
 | `failure` | FAILED | Wymuszenie statusu błędu (exit 1) |
+| `cancelled` | CANCELLED | Wymuszenie statusu błędu (exit 1) |
 | `skipped` | SKIPPED | Neutralny |
 
 ---
