@@ -56,7 +56,7 @@ Oznacza wykrycie błędu. Najczęstsze przyczyny to:
 | --------------- | --------------------------------------------------------------------- | 
 |**@PouLS-PL**     | Testy funkcjonalne, testy wydajnościowe, harmonogram i organizacja.   | 
 | **@maupaaa**        | Zarządzanie GitHubem, struktura katalogów, code review, pipeline.     | 
-| **@Tymqqq**         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu. | 
+| **@Tymqqq**         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu, raport testów. | 
 
 
 ## Komunikacja
