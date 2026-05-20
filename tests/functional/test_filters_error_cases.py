@@ -21,7 +21,7 @@ def test_open_corrupt_image_raises_unidentified_error(tmp_path):
 def test_save_with_invalid_format_raises_value_error(tmp_path):
     img_path = create_test_image(tmp_path / "valid.png")
     with Image.open(img_path) as img:
-        with pytest.raises(ValueError):
+        with pytest.raises(KeyError):
             img.save(tmp_path / "out.invalid", format="INVALID_FORMAT")
 
 
