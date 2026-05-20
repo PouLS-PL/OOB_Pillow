@@ -21,5 +21,12 @@ def create_pattern_image(path: Path) -> Path:
     return path
 
 
+def convert_format(input_path: Path, output_path: Path, format: str) -> Path:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with Image.open(input_path) as source:
+        source.save(output_path, format=format)
+    return output_path
+
+
 def checksum(image: Image.Image) -> str:
     return hashlib.sha256(image.tobytes()).hexdigest()

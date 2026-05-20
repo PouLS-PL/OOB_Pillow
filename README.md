@@ -88,7 +88,7 @@ Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, ws
 Pełna lista scenariuszy akceptacyjnych znajduje się w pliku [scenarios.md](docs/scenarios.md).
 
 ## Instalacja i przygotowanie
-Zgodnie z zasadą "działającego minimum", projekt można przygotować do pracy w następujący sposób:
+Zgodnie z zasadą „działającego minimum”, projekt można przygotować do pracy w następujący sposób:
 
 1. Sklonuj repozytorium:
 
@@ -97,4 +97,38 @@ Zgodnie z zasadą "działającego minimum", projekt można przygotować do pracy
 2. Zainstaluj wymagane biblioteki (Pillow 12.1.1):
     
     pip install -r requirements.txt
+
+
+## Testy
+
+### Opis testów
+
+- **Lokalizacja:** Testy funkcjonalne znajdują się w [tests/functional](tests/functional/test_apply_gaussian_blur.py#L1), testy wydajnościowe w [tests/performance](tests/performance/test_open_save_performance.py#L1). Wspólne narzędzia pomocnicze są w [tests/helpers.py](tests/helpers.py#L1).
+- **Rodzaje testów:**
+    - **Funkcjonalne:** weryfikują scenariusze użycia (konwersje formatów, zmiana trybu kolorów, skalowanie, przycinanie, filtry).
+    - **Wydajnościowe:** mierzą czasy operacji I/O i przetwarzania (open/save, filtry).
+    - **Walidacja błędów:** testy sprawdzające zachowanie przy niepoprawnych lub uszkodzonych danych.
+- **Szczegółowe scenariusze (pliki):**
+    - [tests/functional/test_convert_jpeg_to_png.py](tests/functional/test_convert_jpeg_to_png.py#L1): konwersja JPEG → PNG, zachowanie rozmiarów.
+    - [tests/functional/test_generate_thumbnail.py](tests/functional/test_generate_thumbnail.py#L1): generowanie miniatury i weryfikacja zachowania proporcji.
+    - [tests/functional/test_convert_rgb_to_grayscale.py](tests/functional/test_convert_rgb_to_grayscale.py#L1): konwersja RGB → grayscale (`L`).
+    - [tests/functional/test_crop_image.py](tests/functional/test_crop_image.py#L1): przycinanie obrazu i sprawdzenie zgodności pikseli.
+    - [tests/functional/test_apply_gaussian_blur.py](tests/functional/test_apply_gaussian_blur.py#L1): zastosowanie filtra GaussianBlur i porównanie danych pikseli.
+    - [tests/functional/test_filters_error_cases.py](tests/functional/test_filters_error_cases.py#L1-L200): przypadki błędne i nieprawidłowe parametry (nieistniejące/porwane pliki, nieprawidłowe formaty/tryby, operacje na zamkniętym obrazie itp.).
+- **Narzędzia pomocnicze:** [tests/helpers.py](tests/helpers.py#L1) — funkcje tworzące obrazy testowe i obliczające checksum.
+- **Kryteria zaliczenia:** Testy funkcjonalne muszą przejść bez błędów.
+
+### Uruchamianie testów
+Zalecane polecenia do uruchomienia lokalnie:
+
+```bash
+pip install -r requirements.txt
+pytest -q
+```
+
+- **Uwagi:** Jeśli `pytest` nie jest zainstalowany, można zainstalować minimalnie potrzebne pakiety:
+
+```bash
+pip install pytest pillow
+```
 
