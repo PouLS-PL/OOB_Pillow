@@ -98,20 +98,21 @@ jobs:
       - name: Run performance tests
         run: |
           mkdir -p reports/
-          if [ -d "tests/performance" ]; then
-            pytest tests/performance/ -v --benchmark-only --benchmark-json=reports/benchmark.json
-          else
-            echo "No performance tests found."
-          fi
+          pytest tests/performance/ -v --benchmark-only --benchmark-json=reports/benchmark.json || [ $? -eq 5 ]
+
+      - name: Generate timestamp
+        id: get-timestamp
+        if: always()
+        run: echo "timestamp=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_OUTPUT
 
       - name: Store benchmark results
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: benchmark-results
+          name: benchmark-results-${{ steps.get-timestamp.outputs.timestamp }}
           path: reports/benchmark.json
           retention-days: 30
           if-no-files-found: ignore
-
   test-summary:
     name: Test Summary
     runs-on: ubuntu-latest
