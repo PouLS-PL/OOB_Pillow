@@ -55,8 +55,8 @@ Oznacza wykrycie błędu. Najczęstsze przyczyny to:
 | Członek zespołu | Zadania                                                               | 
 | --------------- | --------------------------------------------------------------------- | 
 |**@PouLS-PL**     | Testy funkcjonalne, testy wydajnościowe, harmonogram i organizacja.   | 
-| **@maupaaa**        | Zarządzanie GitHubem, struktura katalogów, code review, pipeline.     | 
-| **@Tymqqq**         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu. | 
+| **@maupaaa**        | Zarządzanie GitHubem, struktura katalogów, code review, pipeline, porządkowanie repozytorium.     | 
+| **@Tymqqq**         | Dokumentacja, scenariusze akceptacyjne, końcowa prezentacja projektu, raport testów. | 
 
 
 ## Komunikacja
@@ -82,7 +82,7 @@ Projekt jest realizowany w czterech etapach. Zgodnie z zasadą „cut-off”, ws
 | :--- | :--- | :--- | :--- | :--- |
 | **START: Organizacja** | 17.04.2026 | 15.04.2026 | Założenie repozytorium, pełne README, harmonogram, podział ról, kanały komunikacji i wstępne scenariusze testowe. | @PouLS-PL, @Tymqqq, @maupaaa |
 | **Pierwsza Iteracja: Zarządzanie** | 24.04.2026 | 22.04.2026 | Przygotowanie struktury katalogów, aktywne korzystanie z Issues i Pull Requestów, przeprowadzenie Code Review, opracowanie dokumentu ze scenariuszami akceptacyjnymi. | @maupaaa, @Tymqqq |
-| **Druga Iteracja: Testowanie** | 08.05.2026 | 06.05.2026 | Działająca pipeline GitHub Actions, implementacja testów funkcjonalnych i wydajnościowych oraz raportowanie wyników. | @PouLS-PL, @maupaaa |
+| **Druga Iteracja: Testowanie** | 08.05.2026 | 06.05.2026 | Działająca pipeline GitHub Actions, implementacja testów funkcjonalnych i wydajnościowych oraz raportowanie wyników. | @PouLS-PL, @maupaaa, @Tymqqq |
 | **RELEASE: Finalizacja** | 22.05.2026 | 20.05.2026 | Kompletna dokumentacja końcowa, prezentacja projektu, samoocena oraz uzasadniony podział punktów w zespole. | @PouLS-PL, @Tymqqq, @maupaaa |
 
 Pełna lista scenariuszy akceptacyjnych znajduje się w pliku [scenarios.md](docs/scenarios.md).
